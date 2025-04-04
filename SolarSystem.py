@@ -2,9 +2,11 @@ from Parsing import Parser
 
 
 class SolarSystem:
-    def __init__(self, filepath, dt=60*60):
+    def __init__(self, filepath, mode='g', dt=60*60):
+        # TODO : Global / Local mode (argv)
         self._data = Parser.get_instance().parse(filepath)
         self._dt = dt
+        self._mode = mode
 
     def get_data(self):
         return self._data

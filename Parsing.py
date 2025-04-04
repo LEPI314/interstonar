@@ -4,6 +4,7 @@ from Object.ShapeFactory import ShapeFactory
 
 class Parser:
     _instance = None
+    _data = []
 
     def __new__(cls):
         """Override __new__ pour contrôler la création d'instance."""
@@ -11,57 +12,95 @@ class Parser:
             cls._instance = super().__new__(cls)
         return cls._instance
 
+    @classmethod
     def get_instance(cls):
         if cls._instance:
             return cls._instance
-        cls.__new__()
+        cls.__new__(cls)
         return cls._instance
 
-    def parse(filePath):
+    def error_handling(cls, function: None, args):
+        try:
+            function(cls, args)
+        except:
+            print("Parse Error")
+            exit(84)
 
-        data: list[Body] = []
-
+    def parse(cls, filePath):
         with open(filePath, "r") as file:
-
             for lign in file:
-
                 if lign.startswith("[[bodies]]"):
-                    data.append(Body())
+                    cls._data.append(Body())
 
+                # Appel des méthodes associées avec error_handling
                 if lign.startswith("type"):
-                    print(lign.split('=', 1)[1].strip())
-                    data[-1].set_shape(ShapeFactory.get_instance().create_shape(
-                        lign.split('=', 1)[1].strip()))
+                    cls.error_handling(
+                        cls.handle_type, lign)
 
-                if lign.startswith("mass"):
-                    data[-1].get_shape().set_mass(
-                        lign.split('=', 1)[1].strip())
+                elif lign.startswith("mass"):
+                    cls.error_handling(
+                        cls.handle_mass, lign)
 
-                if lign.startswith("radius"):
-                    data[-1].get_shape().set_radius(lign.split('=', 1)[1].strip())
+                elif lign.startswith("radius"):
+                    cls.error_handling(
+                        cls.handle_radius, lign)
 
-                if lign.startswith("position"):
-                    data[-1].set_position(lign.split('=', 1)[1].strip())
+                elif lign.startswith("position"):
+                    cls.error_handling(
+                        cls.handle_position, lign)
 
-                if lign.startswith("direction"):
-                    data[-1].set_direction(lign.split('=', 1)[1].strip())
+                elif lign.startswith("direction"):
+                    cls.error_handling(
+                        cls.handle_direction, lign)
 
-                if lign.startswith("sides"):
-                    data[-1].get_shape().set_sides(lign.split('=', 1)[1].strip())
+                elif lign.startswith("sides"):
+                    cls.error_handling(
+                        cls.handle_sides, lign)
 
-                if lign.startswith("inner_radius"):
-                    data[-1].get_shape().set_inner_radius(
-                        lign.split('=', 1)[1].strip())
+                elif lign.startswith("inner_radius"):
+                    cls.error_handling(
+                        cls.handle_inner_radius, lign)
 
-                if lign.startswith("outer_radius"):
-                    data[-1].get_shape().set_outer_radius(
-                        lign.split('=', 1)[1].strip())
+                elif lign.startswith("outer_radius"):
+                    cls.error_handling(
+                        cls.handle_outer_radius, lign)
 
-                if lign.startswith("height"):
-                    data[-1].get_shape().set_height(
-                        lign.split('=', 1)[1].strip().split("#", 1)[0].strip())
+                elif lign.startswith("height"):
+                    cls.error_handling(
+                        cls.handle_height, lign)
 
-                if lign.startswith("radius"):
-                    data[-1].get_shape().set_radius(lign.split('=', 1)[1].strip())
+        return cls._data
 
-        return data
+    def _lign_to_data(cls, lign: str):
+        return lign.split('=', 1)[1].strip()
+
+    # Méthodes pour chaque type de ligne
+    def handle_type(cls, function: None, lign: str):
+        print(cls._lign_to_data(lign))
+        cls._data[-1].set_shape(ShapeFactory.get_instance().create_shape(
+            cls._lign_to_data(lign)))
+
+    def handle_mass(cls, function, lign: str):
+        cls._data[-1].get_shape().set_mass(cls._lign_to_data(lign))
+
+    def handle_radius(cls, function, lign: str):
+        cls._data[-1].get_shape().set_radius(cls._lign_to_data(lign))
+
+    def handle_position(cls, function, lign: str):
+        cls._data[-1].set_position(cls._lign_to_data(lign))
+
+    def handle_direction(cls, function, lign: str):
+        cls._data[-1].set_direction(cls._lign_to_data(lign))
+
+    def handle_sides(cls, function, lign: str):
+        cls._data[-1].get_shape().set_sides(cls._lign_to_data(lign))
+
+    def handle_inner_radius(cls, function, lign: str):
+        cls._data[-1].get_shape().set_inner_radius(cls._lign_to_data(lign))
+
+    def handle_outer_radius(cls, function, lign: str):
+        cls._data[-1].get_shape().set_outer_radius(cls._lign_to_data(lign))
+
+    def handle_height(cls, function, lign: str):
+        cls._data[-1].get_shape().set_height(
+                cls._lign_to_data(lign).split("#", 1)[0].strip())

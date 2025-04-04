@@ -3,7 +3,7 @@ from SolarSystem import SolarSystem
 
 def main():
     # Initialisation du système solaire
-    system = SolarSystem("example.txt")
+    system = SolarSystem(filepath="example.txt")
 
     # Création de différentes bodies avec formes générées par la factory
     # bodies = [
