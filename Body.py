@@ -2,12 +2,16 @@ import re
 from Object.shape import Shape
 from Vector3d import Vector3D
 
+G = 6.677E-11 # m³.kg^-1.s^-2
+
 class Body:
 
     def __init__(self, name: str = "Unnamed", position: str = None, direction: str = None, shape: Shape = None):
         self._name = name
-        self._position = Vector3D(position) if position is not None else Vector3D()
-        self._direction = Vector3D(direction) if direction is not None else Vector3D()
+        self._position = Vector3D(position)
+        self._new_position = self._position
+        self._direction = Vector3D(direction)
+        self._new_direction = self._direction
         self._shape = shape if shape is not None else Shape("undefined")
 
     def get_name(self):
@@ -47,12 +51,19 @@ class Body:
         print("Shape details:")
         self._shape.print_info()
 
-    def _update_position(self, dt : float, bodies : [Body]):
-        distances = [self._position.
+    def _update_position(self, dt : float, bodies : ['Body']):
+        self._new_position = self._position + self._direction * dt
 
-    def _update_direction(self, dt : float, bodies : [Body]):
-        pass
+    def _update_direction(self, dt : float, bodies : ['Body']):
+        self._new_position =                                                  \
+            self._direction +                                                 \
+                G * sum([                                                     \
+                body.get_shape().get_mass() /                                 \
+                self._position.dst(body.get_position())**3 *                  \
+                (body.get_position() - self._position) for body in bodies]) * \
+                dt
 
-    def update(self, dt : float, bodies : [Body]):
-        pass
-
+    def update(self, dt : float, bodies : ['Body']):
+        self._update_position(dt, bodies) 
+        self._update_direction(dt, bodies)
+    
