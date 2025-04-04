@@ -1,12 +1,16 @@
-import re
 from Object.shape import Shape
 from Vector3d import Vector3D
 
-G = 6.677E-11 # m³.kg^-1.s^-2
+# m³.kg^-1.s^-2
+G = 6.677E-11
+
 
 class Body:
-
-    def __init__(self, name: str = "Unnamed", position: str = None, direction: str = None, shape: Shape = None):
+    def __init__(self,
+                 name: str = "Unnamed",
+                 position: str = None,
+                 direction: str = None,
+                 shape: Shape = None):
         self._name = name
         self._position = Vector3D(position)
         self._new_position = self._position
@@ -39,31 +43,31 @@ class Body:
         self._shape = shape
 
     def __repr__(self):
-        return f"Body(name={self._name}, position={self._position}, shape={self._shape})"
+        return f"Body(name={self._name}, position={self._position}," +        \
+            "shape={self._shape})"
 
     def print_info(self):
-        print(f"\nBody Information:")
+        print("\nBody Information:")
         print(f"Name: {self._name}")
-        print(f"Position:")
+        print("Position:")
         self._position.print_info()
-        print(f"direction:")
+        print("direction:")
         self._direction.print_info()
         print("Shape details:")
         self._shape.print_info()
 
-    def _update_position(self, dt : float, bodies : ['Body']):
+    def _update_position(self, dt: float, bodies: ['Body']):
         self._new_position = self._position + self._direction * dt
 
-    def _update_direction(self, dt : float, bodies : ['Body']):
+    def _update_direction(self, dt: float, bodies: ['Body']):
         self._new_position =                                                  \
             self._direction +                                                 \
-                G * sum([                                                     \
-                body.get_shape().get_mass() /                                 \
-                self._position.dst(body.get_position())**3 *                  \
-                (body.get_position() - self._position) for body in bodies]) * \
-                dt
+            G * sum([
+                    body.get_shape().get_mass() /
+                    self._position.dst(body.get_position())**3 *
+                    (body.get_position() - self._position) for body in bodies])\ 
+            * dt
 
-    def update(self, dt : float, bodies : ['Body']):
-        self._update_position(dt, bodies) 
+    def update(self, dt: float, bodies: ['Body']):
+        self._update_position(dt, bodies)
         self._update_direction(dt, bodies)
-    
