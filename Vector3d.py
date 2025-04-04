@@ -5,6 +5,8 @@ class Vector3D:
     def __init__(self, value="{x = 0, y = 0, z = 0}"):
         if isinstance(value, str):
             self._from_string(value)
+        if isinstance(value, dict):
+            self._from_dict(value)
         else:
             raise TypeError("Vector3D constructor only accepts a string like '{x = 1, y = 2, z = 3}'")
 
@@ -14,6 +16,11 @@ class Vector3D:
         self.y = self._extract_value(cleaned, "y")
         self.z = self._extract_value(cleaned, "z")
 
+    def _from_dict(self, dico: dict):
+        self.x = dico.x
+        self.y = dico.y
+        self.z = dico.z
+
     def _extract_value(self, string: str, axis: str) -> float:
         match = re.search(rf'{axis}\s*=\s*(-?\d+(?:\.\d+)?)', string)
         return float(match.group(1)) if match else 0.0
@@ -21,22 +28,25 @@ class Vector3D:
     def __add__(self, other):
         if not isinstance(other, Vector3D):
             return NotImplemented
-        return Vector3D(f"{{x = {self.x + other.x}, y = {self.y + other.y}, z = {self.z + other.z}}}")
+        return Vector3D({x = {self.x + other.x}, y = {self.y + other.y}, z = {self.z + other.z}})
 
     def __sub__(self, other):
         if not isinstance(other, Vector3D):
             return NotImplemented
-        return Vector3D(f"{{x = {self.x - other.x}, y = {self.y - other.y}, z = {self.z - other.z}}}")
+        return Vector3D({x = {self.x - other.x}, y = {self.y - other.y}, z = {self.z - other.z}})
 
     def __truediv__(self, scalar):
         if not isinstance(scalar, (int, float)):
             return NotImplemented
         if scalar == 0:
             raise ZeroDivisionError("Division by zero is not allowed")
-        return Vector3D(f"{{x = {self.x / scalar}, y = {self.y / scalar}, z = {self.z / scalar}}}")
+        return Vector3D({{x = {self.x / scalar}, y = {self.y / scalar}, z = {self.z / scalar}})
 
     def norm(self):
         return math.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
+
+    def dst(self, other : Vector3D):
+        return norm(self - other)
 
     def __repr__(self):
         return f"Vector3D(x={self.x}, y={self.y}, z={self.z})"

@@ -47,3 +47,12 @@ class Body:
         print("Shape details:")
         self._shape.print_info()
 
+    def _update_position(self, dt : float, bodies : [Body]):
+        distances = [self._position.
+
+    def _update_direction(self, dt : float, bodies : [Body]):
+        pass
+
+    def update(self, dt : float, bodies : [Body]):
+        pass
+
