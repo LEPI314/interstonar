@@ -71,3 +71,10 @@ class Body:
     def update(self, dt: float, bodies: ['Body']):
         self._update_position(dt, bodies)
         self._update_direction(dt, bodies)
+
+    def finalise_update(self):
+        self._position = self._new_position
+        self._direction = self._new_direction
+
+    def collide(self, other: 'Body'):
+        pass

@@ -1,13 +1,9 @@
-from Object.ShapeFactory import ShapeFactory
-from Parsing import parse
+from SolarSystem import SolarSystem
 
 
 def main():
-    # Initialisation de la factory (Singleton)
-
-    factory = ShapeFactory()
-
-    data = parse("example.txt", factory)
+    # Initialisation du système solaire
+    system = SolarSystem("example.txt")
 
     # Création de différentes bodies avec formes générées par la factory
     # bodies = [
@@ -18,17 +14,8 @@ def main():
     # ]
 
     # Affichage des informations pour chaque body
-    print("=== Liste des corps créés ===")
-    for body in data:
-        body.print_info()
-        print("-" * 50)
+    system.print_info()
 
 
 if __name__ == "__main__":
     main()
-
-
-# def main():
-#
-#    SFactory = ShapeFactory()
-#    data = parse("example.toml")
