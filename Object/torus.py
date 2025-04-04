@@ -1,5 +1,6 @@
 from .shape import Shape
 
+
 class Torus(Shape):
     def __init__(self, inner_radius: float = 3.0, outer_radius: float = 1.0):
         super().__init__("torus")
@@ -17,7 +18,7 @@ class Torus(Shape):
 
     def set_outer_radius(self, outer_radius):
         self._outer_radius = outer_radius
-    
+
     def print_info(self):
         super().print_info()
         print(f"Inner radius: {self._inner_radius}")

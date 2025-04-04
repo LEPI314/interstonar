@@ -1,4 +1,3 @@
-
 class Shape:
     def __init__(self, shape_type: str, mass: int = 0):
         self.shape_type = shape_type

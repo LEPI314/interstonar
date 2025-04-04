@@ -1,6 +1,6 @@
-import re
 from .shape import Shape
 from Vector3d import Vector3D
+
 
 class Box(Shape):
     def __init__(self, x: float = 10.0, y: float = 10.0, z: float = 10.0):
@@ -16,4 +16,3 @@ class Box(Shape):
     def print_info(self):
         super().print_info()
         self._sides.print_info()
-        

@@ -1,5 +1,6 @@
 from .shape import Shape
 
+
 class Cylinder(Shape):
 
     def __init__(self, radius: float = 1.0, height: float = None):
@@ -18,7 +19,7 @@ class Cylinder(Shape):
 
     def set_height(self, height):
         self._height = height
-    
+
     def print_info(self):
         super().print_info()
         print(f"Radius: {self._radius}")

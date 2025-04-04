@@ -1,5 +1,6 @@
 from .shape import Shape
 
+
 class Sphere(Shape):
     def __init__(self, radius: float = 1.0):
         super().__init__("sphere")

@@ -65,8 +65,8 @@ class Body:
             G * sum([
                     body.get_shape().get_mass() /
                     self._position.dst(body.get_position())**3 *
-                    (body.get_position() - self._position) for body in bodies])\ 
-            * dt
+                    (body.get_position() - self._position) for body in bodies]
+                    ) * dt
 
     def update(self, dt: float, bodies: ['Body']):
         self._update_position(dt, bodies)
