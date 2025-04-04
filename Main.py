@@ -1,4 +1,3 @@
-from Body import *
 from Object.ShapeFactory import ShapeFactory
 from Parsing import parse
 
