@@ -24,13 +24,13 @@ def parse(filePath, shapeFactory : ShapeFactory):
                     data[-1].get_shape().set_radius(lign.split('=', 1)[1].strip())
 
                if lign.startswith("position"):
-                    data[-1].set_position(lign.split('=', 1)[1].strip(), 0, 0)
+                    data[-1].set_position(lign.split('=', 1)[1].strip())
 
                if lign.startswith("direction"):
-                    data[-1].set_direction(lign.split('=', 1)[1].strip(), 0, 0)
+                    data[-1].set_direction(lign.split('=', 1)[1].strip())
 
                if lign.startswith("sides"):
-                    data[-1].get_shape().set_sides(lign.split('=', 1)[1].strip(), 0, 0)
+                    data[-1].get_shape().set_sides(lign.split('=', 1)[1].strip())
 
                if lign.startswith("inner_radius"):
                     data[-1].get_shape().set_inner_radius(lign.split('=', 1)[1].strip())
@@ -39,7 +39,7 @@ def parse(filePath, shapeFactory : ShapeFactory):
                     data[-1].get_shape().set_outer_radius(lign.split('=', 1)[1].strip())
 
                if lign.startswith("height"):
-                    data[-1].get_shape().set_height(lign.split('=', 1)[1].strip())
+                    data[-1].get_shape().set_height(lign.split('=', 1)[1].strip().split("#", 1)[0].strip())
 
                if lign.startswith("radius"):
                     data[-1].get_shape().set_radius(lign.split('=', 1)[1].strip())
